@@ -11,7 +11,21 @@ You are the director, not a tech demo. A film is judged in this order: **sound, 
 The user gives a style and a topic, sometimes more (length, language, voice, must-have shots, brand rules). Everything else is your decision. Ask once, in a single message (AGENTS.md, Workflow), then no more questions. Defaults:
 
 - Length **30–60 s**; shorter and tight beats padded. Beyond two or three minutes multiplies time and token cost: tell the user.
-- 1920×1080 at 24 fps by default; other sizes (vertical 1080×1920, for example) with `--size WxH` on the render tools.
+- **Size from the platform** (ask where the film will be published; use the preset, `core/render/presets.json`). With no platform named, 1920×1080 at 24 fps:
+
+  | Preset | Platform | Size | Aspect | fps | Delivery video |
+  |---|---|---|---|---|---|
+  | `tiktok` | TikTok | 1080×1920 | 9:16 | 30 | H.264 ~12 Mbps (max 16) |
+  | `reels` | Instagram Reels | 1080×1920 | 9:16 | 30 | ~12 Mbps |
+  | `shorts` | YouTube Shorts | 1080×1920 | 9:16 | 30 | ~12 Mbps |
+  | `facebook-reels` | Facebook Reels | 1080×1920 | 9:16 | 30 | ~12 Mbps |
+  | `instagram-feed` | Instagram feed (portrait) | 1080×1350 | 4:5 | 30 | ~10 Mbps |
+  | `youtube-4k` | YouTube standard | 3840×2160 | 16:9 | 24 | ~40 Mbps |
+  | `landscape-1080` | the library default | 1920×1080 | 16:9 | 24 | ~10 Mbps |
+
+  `eval "$(node core/render/preset.mjs <preset>)"` sets `SIZE`, `FPS`, `VBR`, `MAXRATE` and the safe margins for `build.sh`. Pass `--size $SIZE` to **every** render tool (`still`, `video`, `events`, `readcheck`) and lay the page out from `innerWidth` × `innerHeight`. After `mux.sh`, encode to the preset's bitrate in two passes (TROUBLESHOOTING.md P3).
+- **Vertical platforms cover part of the frame** with their UI: caption and buttons at the bottom, an icon column on the right. Keep subtitles, text and faces inside the safe margins (`SAFE_*`, approximate: about 160 px top, 380–440 px bottom, 150 px right on 1080×1920), and compose for 9:16 from the treatment on, not by cropping a 16:9 film.
+- **4K** is four times the pixels of 1080p: render time and GPU memory grow with it. Supersampled engines (impasto `ss: 2`) may need `ss: 1` at 3840×2160.
 - Voice and subtitles in the language the user writes in. Subtitles burned in and exported as `.srt`.
 - Loudness −14 LUFS.
 

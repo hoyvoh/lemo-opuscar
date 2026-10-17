@@ -10,7 +10,9 @@ LIB=$(cd "$(dirname "$0")/.." && pwd -P)
 # Installed packages are tracked by content: a marker holds a checksum of the files they came from (and the Python
 # version), so a changed package.json or requirements file triggers a reinstall.
 sig() { cat "$@" 2>/dev/null | cksum | cut -d' ' -f1; }
-pysig() { echo "$(sig "$1")-$("$LIB/.venv/bin/python" -V 2>&1 | cut -d. -f1,2)"; }
+# a venv is laid out as bin/python (POSIX) or Scripts/python.exe (native Windows, e.g. via uv on Win)
+venv_py() { [ -x "$LIB/.venv/bin/python" ] && echo "$LIB/.venv/bin/python" || echo "$LIB/.venv/Scripts/python.exe"; }
+pysig() { echo "$(sig "$1")-$("$(venv_py)" -V 2>&1 | cut -d. -f1,2)"; }
 req() { [ "$1" = core ] && echo "$LIB/requirements.txt" || echo "$LIB/requirements-$1.txt"; }
 node_ok() { [ "$(cat "$LIB/node_modules/.lemo-ok" 2>/dev/null)" = "$(sig "$LIB/package.json" "$LIB/package-lock.json")" ]; }
 py_ok() { [ "$(cat "$LIB/.venv/.lemo-$1" 2>/dev/null)" = "$(pysig "$(req "$1")")" ]; }
@@ -36,15 +38,15 @@ case "$1" in
     fi
     node node_modules/playwright-core/cli.js install chromium-headless-shell   # the renderer's browser (a no-op when present)
     # a venv whose Python is gone (after a Python upgrade) can't be repaired in place: make it again
-    [ ! -e .venv ] || .venv/bin/python -c pass 2>/dev/null || { echo "! $LIB/.venv is broken; making it again"; rm -rf .venv; }
-    if [ ! -x .venv/bin/python ]; then
+    [ ! -e .venv ] || "$(venv_py)" -c pass 2>/dev/null || { echo "! $LIB/.venv is broken; making it again"; rm -rf .venv; }
+    if [ ! -x "$(venv_py)" ]; then
       if command -v uv >/dev/null; then uv venv --quiet --python 3.12 .venv
       else py=$(find_py) || { echo "✗ Python 3.11+ is needed (or install uv, which fetches it)"; exit 1; }; "$py" -m venv .venv; fi
     fi
     for t in $tiers; do
       py_ok "$t" && continue
-      if command -v uv >/dev/null; then uv pip install --quiet --python .venv/bin/python -r "$(req "$t")"
-      else .venv/bin/python -m pip install --quiet --disable-pip-version-check -r "$(req "$t")"; fi
+      if command -v uv >/dev/null; then uv pip install --quiet --python "$(venv_py)" -r "$(req "$t")"
+      else "$(venv_py)" -m pip install --quiet --disable-pip-version-check -r "$(req "$t")"; fi
       pysig "$(req "$t")" > ".venv/.lemo-$t"
     done
     case " $tiers " in *" voice "*) [ -f core/tts/kokoro-v1.0.onnx ] && [ -f core/tts/voices-v1.0.bin ] || sh tools/fetch.sh voice ;; esac

@@ -31,6 +31,7 @@ The viewport is 1920×1080 at device scale 1, or `--size WxH`. `--q 'k=v&…'` r
 
 | Command | What it does |
 |---|---|
+| `node core/render/preset.mjs [<preset>]` | list the delivery presets, or print `SIZE= FPS= VBR= MAXRATE= SAFE_*=` for one (`eval` it in `build.sh`); presets in `presets.json`, table in DIRECTOR.md §1 |
 | `node core/render/still.mjs <demo> <t> [<t> …] [--range a:b:step] [--prefix t_] [--out dir]` | review stills as JPEGs (default `<demo>/stills/t_<t>.jpg`) |
 | `node core/render/video.mjs <demo> [--fps 24] [--workers 3] [--out <demo>/out/video.mp4]` | every frame to a video; up to 6 workers for a single render. Each parallel version needs its own `--out` |
 | `node core/render/events.mjs <demo> [--out <file>]` | export `{dur, ev}` to `<demo>/events.json` |

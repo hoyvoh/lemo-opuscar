@@ -4,7 +4,7 @@
 
 ## Add a style
 
-Work in `styles/<slug>/` (lowercase letters, digits, hyphens; unique). Start from the templates in `styles/_template/`.
+Work in `styles/<slug>/` (lowercase letters, digits, hyphens; unique). Start from the templates in `styles/_template/`. The step-by-step path from concept images to a published style, with pass criteria for each stage, is [`NEW-STYLE.md`](NEW-STYLE.md).
 
 | File | What it holds |
 |---|---|

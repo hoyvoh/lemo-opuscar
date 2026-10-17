@@ -1,0 +1,10 @@
+{
+  "_doc": "Delivery presets by platform. size = WxH for every render tool (--size); vbr/maxrate for the two-pass delivery encode; safe = margins in px that the platform's UI may cover (keep text and faces out of them). See DIRECTOR.md §1.",
+  "tiktok":          { "label": "TikTok",               "size": "1080x1920", "aspect": "9:16", "fps": 30, "vbr": "12M", "maxrate": "16M", "safe": { "top": 160, "bottom": 440, "left": 60, "right": 150 } },
+  "reels":           { "label": "Instagram Reels",      "size": "1080x1920", "aspect": "9:16", "fps": 30, "vbr": "12M", "maxrate": "16M", "safe": { "top": 220, "bottom": 420, "left": 60, "right": 150 } },
+  "shorts":          { "label": "YouTube Shorts",       "size": "1080x1920", "aspect": "9:16", "fps": 30, "vbr": "12M", "maxrate": "16M", "safe": { "top": 160, "bottom": 380, "left": 60, "right": 150 } },
+  "facebook-reels":  { "label": "Facebook Reels",       "size": "1080x1920", "aspect": "9:16", "fps": 30, "vbr": "12M", "maxrate": "16M", "safe": { "top": 220, "bottom": 420, "left": 60, "right": 150 } },
+  "instagram-feed":  { "label": "Instagram feed (portrait)", "size": "1080x1350", "aspect": "4:5", "fps": 30, "vbr": "10M", "maxrate": "14M", "safe": { "top": 60, "bottom": 60, "left": 60, "right": 60 } },
+  "youtube-4k":      { "label": "YouTube standard (4K)", "size": "3840x2160", "aspect": "16:9", "fps": 24, "vbr": "40M", "maxrate": "50M", "safe": { "top": 0, "bottom": 0, "left": 0, "right": 0 } },
+  "landscape-1080":  { "label": "Library default (1080p landscape)", "size": "1920x1080", "aspect": "16:9", "fps": 24, "vbr": "10M", "maxrate": "14M", "safe": { "top": 0, "bottom": 0, "left": 0, "right": 0 } }
+}
