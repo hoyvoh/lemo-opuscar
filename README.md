@@ -64,6 +64,24 @@ claude plugin install lemo-opuscar@lemolab
 
 Then use it from any folder. On first use it downloads the guides, tools and style prompts to `~/lemo-opuscar`, shared by all your films. Each film's project, from source to finished video, goes in the folder you started from. For other agents, copy [`plugin/skills/lemo-opuscar/`](plugin/skills/lemo-opuscar/) into their skills folder.
 
+#### Codex
+
+Open this repository in Codex to use `.agents/skills/lemo-opuscar/`.
+Invoke it as `$lemo-opuscar`, for example:
+
+> $lemo-opuscar Make a 30-second watercolor film about my coffee farm.
+
+To use it from other folders, copy the entire `plugin/skills/lemo-opuscar/`
+folder (including `scripts/`) into `~/.codex/skills/`, or
+`$CODEX_HOME/skills/` if you set `CODEX_HOME`. Open a new Codex session after
+installing. The two original `SKILL.md` files are packaging variants of the
+same skill; install only the portable one above. All 51 film styles are
+resources used by that skill.
+
+On Windows, use a POSIX shell such as Git Bash for the setup and build scripts.
+See [the Windows setup fix](windows-setup-fix.md) if the Playwright browser
+download times out; check its pinned revision against your installed package.
+
 ### Option 2: clone the repo
 
 ```sh
